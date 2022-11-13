@@ -17,7 +17,12 @@ const successfulList = { type: null, message: productsList };
 
 const successfulId = { type: null, message: productsList[0] };
 
+const productMock = { name: 'New product' };
+
+const productPosted = { type: null, message: productMock };
+
 module.exports = {
   successfulList,
   successfulId,
+  productPosted,
 };

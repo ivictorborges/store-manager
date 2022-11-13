@@ -17,8 +17,13 @@ describe('Unit test on productsModel', function () {
       const result = await productsModel.findProductById(1);
       expect(result).to.be.deep.equal(productsList[0]);
     });
-    
   });
-
+  describe('products posted', function () {
+    it('should post a new product', async function () {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+      const result = await productsModel.insertProduct({ name: 'New product' });
+      expect(result).to.equal(4);
+    });
+  });
   afterEach(sinon.restore);
 });
