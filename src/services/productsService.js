@@ -19,8 +19,17 @@ const postProduct = async (product) => {
   return { type: null, message: { id, ...product } };
 };
 
+const putProduct = async (product) => {
+  const { type, message } = await productVerifier(product.id);
+  if (type) return { type, message };
+
+  const result = await productsModel.putProduct(product);
+  return { type: null, message: result };
+};
+
 module.exports = {
   getProducts,
   getProductById,
   postProduct,
+  putProduct,
 };

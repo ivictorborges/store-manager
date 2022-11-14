@@ -19,8 +19,17 @@ const postProduct = async (req, res) => {
   res.status(201).json(message);
 };
 
+const putProduct = async (req, res) => {
+  const idParam = req.params;
+  const product = req.body;
+  const { type, message } = await productsService.putProduct({ ...idParam, ...product });
+  if (type) return res.status(mapType(type)).json({ message });
+  res.status(200).json(message);
+};
+
 module.exports = {
   getProducts,
   getProductById,
   postProduct,
+  putProduct,
 };
