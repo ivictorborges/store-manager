@@ -1,6 +1,6 @@
 const connection = require('./connection');
 
-const insertOnSale = async () => {
+const postOnSale = async () => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales (date) VALUES (default)',
     [],
@@ -8,8 +8,8 @@ const insertOnSale = async () => {
   return insertId;
 };
 
-const insertOnSaleProducts = async (sales, id = null) => {
-  const saleId = id || await insertOnSale();
+const postOnSaleProducts = async (sales, id = null) => {
+  const saleId = id || await postOnSale();
   const placeholders = sales.map((_) => '(?, ?, ?)').join(', ');
   const values = sales
     .reduce((prev, { productId, quantity }) => [...prev, saleId, productId, quantity], []);
@@ -21,6 +21,35 @@ const insertOnSaleProducts = async (sales, id = null) => {
   return saleId;
 };
 
+const getSales = async () => {
+  const [sales] = await connection.execute(
+    `SELECT salesp.sale_id AS saleId, salesp.product_id AS productId, salesp.quantity, sales.date
+      FROM StoreManager.sales_products AS salesp
+      INNER JOIN StoreManager.sales AS sales
+      ON sales.id = salesp.sale_id
+      ORDER BY saleId, productId`,
+  );
+  return sales;
+};
+
+const getSalesById = async (id) => {
+  const [sales] = await connection.execute(
+    `SELECT
+      sales.date,
+      salesp.product_id AS productId,
+      salesp.quantity
+      FROM StoreManager.sales_products AS salesp
+      INNER JOIN StoreManager.sales AS sales
+      ON sales.id = salesp.sale_id
+      AND sales.id = ?
+      ORDER BY sales.id, salesp.product_id`,
+    [id],
+  );
+  return sales;
+};
+
 module.exports = {
-  insertOnSaleProducts,
+  postOnSaleProducts,
+  getSales,
+  getSalesById,
 };

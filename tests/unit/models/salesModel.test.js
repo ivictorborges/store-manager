@@ -8,7 +8,7 @@ describe('Unit tests on salesModel', function () {
   describe('sales posted', function () {
     it('should post a new sale', async function () {
       sinon.stub(connection, 'execute').resolves([{ insertId: 2 }]);
-      const result = await salesModel.insertOnSaleProducts(sales);
+      const result = await salesModel.postOnSaleProducts(sales);
       expect(result).to.equal(2);
     });
   });
