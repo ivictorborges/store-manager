@@ -27,9 +27,18 @@ const putProduct = async (product) => {
   return { type: null, message: result };
 };
 
+const deleteProduct = async (id) => {
+  const { type, message } = await productVerifier(id);
+  if (type) return { type, message };
+
+  const result = await productsModel.deleteProduct(id);
+  return { type: null, message: result };
+};
+
 module.exports = {
   getProducts,
   getProductById,
   postProduct,
   putProduct,
+  deleteProduct,
 };
