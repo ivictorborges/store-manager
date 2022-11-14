@@ -22,8 +22,16 @@ describe('Unit test on productsModel', function () {
     it('should post a new product', async function () {
       sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
       const result = await productsModel.postProduct({ name: 'New product' });
-      expect(result).to.equal(4);
+      expect(result).to.be.equal(4);
     });
   });
+  describe('products putted', function () {
+    it('should put a product', async function () {
+      sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
+      const result = await productsModel.putProduct(productsList[0]);
+      expect(result).to.be.deep.equal(productsList[0]);
+    });
+  });
+      
   afterEach(sinon.restore);
 });

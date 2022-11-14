@@ -11,6 +11,7 @@ const {
   successfulList,
   successfulId,
   productPosted,
+  productPutted,
 } = require('./mocks/productsController.mock');
 
 describe('Unit tests on productsController', function () {
@@ -36,6 +37,7 @@ describe('Unit tests on productsController', function () {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(successfulId.message);
     });
+  });
   describe('products posted', function () {
     it('should post a new product', async function () {
       const res = {};
@@ -47,6 +49,17 @@ describe('Unit tests on productsController', function () {
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(productPosted.message);
     });
-});
+  });
+  describe('products putted', function () {
+    it('should put a product', async function () {
+      const res = {};
+      const req = { body: { name: 'Martelo do Batman' }, params: { id: '1' } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'putProduct').resolves(productPutted);
+      await productsController.putProduct(req, res);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(productPutted.message);
+    });
   });
 });

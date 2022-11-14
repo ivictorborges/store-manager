@@ -21,8 +21,11 @@ const productMock = { name: 'New product' };
 
 const productPosted = { type: null, message: productMock };
 
+const productPutted = { type: null, message: { name: 'Martelo do Batman', id: 1 } }
+
 module.exports = {
   successfulList,
   successfulId,
   productPosted,
+  productPutted,
 };
