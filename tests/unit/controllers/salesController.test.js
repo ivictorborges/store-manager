@@ -23,4 +23,28 @@ describe('tests on salesController', function () {
       expect(res.json).to.have.been.calledWith(successful.message);
     });
   });
+  describe('sales searched', function () {
+    it('should search a list of sales', async function () {
+      const res = {};
+      const req = { body: {} };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'getSales').resolves(successful);
+      await salesController.getSales(req, res);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(successful.message);
+    });
+    it('should search a sale by id', async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'getSalesById').resolves({ type: null, message: sales[0] });
+      await salesController.getSalesById(req, res);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(sales[0]);
+    });
+  });
+  
+  afterEach(sinon.restore);
 });

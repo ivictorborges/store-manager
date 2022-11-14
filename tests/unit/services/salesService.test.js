@@ -12,4 +12,19 @@ describe('Unit tests on salesService', function () {
       expect(response.message).to.deep.equal({ id: 3, itemsSold: sales });
     });
   });
+  describe('sales searched', function () {
+    it('should search a list of sales', async function () {
+      sinon.stub(salesModel, 'getSales').resolves(sales);
+      const response = await salesService.getSales();
+      expect(response.message).to.deep.equal(sales);
+    });
+
+    it('should search a sale by id', async function () {
+      sinon.stub(salesModel, 'getSalesById').resolves(sales[0]);
+      const response = await salesService.getSalesById(1);
+      expect(response.message).to.deep.equal(sales[0]);
+    });
+  });
+
+  afterEach(sinon.restore);
 });
