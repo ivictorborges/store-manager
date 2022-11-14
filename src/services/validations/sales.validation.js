@@ -1,6 +1,6 @@
 const productsModel = require('../../models/productsModel');
 
-const salesProductsVerifier = async (sales) => {
+const saleProductsVerifier = async (sales) => {
   const products = await productsModel.findProducts();
   const valid = sales.every((sale) => products
     .some((product) => product.id === sale.productId));
@@ -11,5 +11,5 @@ const salesProductsVerifier = async (sales) => {
 };
 
 module.exports = {
-  salesProductsVerifier,
+  saleProductsVerifier,
 };
