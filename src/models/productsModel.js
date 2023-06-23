@@ -34,7 +34,7 @@ const deleteProduct = async (id) => {
     'DELETE FROM StoreManager.products WHERE id = ?',
     [id],
   );
-  return `Product ${id} deleted successfuly`;
+  return `Product ${id} deleted successfully`;
 };
 
 module.exports = {
