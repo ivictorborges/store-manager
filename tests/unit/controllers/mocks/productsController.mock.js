@@ -13,6 +13,8 @@ const productsList = [
   },
 ];
 
+const fail = { type: 'INVALID_VALUE', message: 'Product not found' };
+
 const successfulList = { type: null, message: productsList };
 
 const successfulId = { type: null, message: productsList[0] };
@@ -28,4 +30,5 @@ module.exports = {
   successfulId,
   productPosted,
   productPutted,
+  fail,
 };

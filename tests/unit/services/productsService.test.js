@@ -13,9 +13,15 @@ describe('Unit tests on productsService', function () {
     });
 
     it('should search a product by id', async function () {
-      sinon.stub(productsService, 'getProductById').resolves({ type: null, message: productList[0] });
+      sinon.stub(productsModel, 'getProductById').resolves(productList[0]);
       const response = await productsService.getProductById(1);
       expect(response.message).to.be.deep.equal(productList[0]);
+    });
+
+    it('should returns an error with invalid id', async function () {
+      sinon.stub(productsModel, 'getProducts').resolves(productList);
+      const response = await productsService.getProductById(50);
+      expect(response.message).to.deep.equal('Product not found');
     });
   });
   describe('products posted', function () {
@@ -28,10 +34,28 @@ describe('Unit tests on productsService', function () {
   describe('products putted', function () {
       it('should put a product', async function () {
         sinon.stub(productsModel, 'putProduct').resolves(productList[0]);
-        const result = await productsModel.putProduct(productList[0]);
-        expect(result).to.be.deep.equal(productList[0]);
+        const response = await productsService.putProduct(productList[0]);
+        expect(response.message).to.be.deep.equal(productList[0]);
+      });
+
+      it('should returns an error with invalid id', async function () {
+        sinon.stub(productsModel, 'getProducts').resolves(productList);
+        const response = await productsService.putProduct({ productId: 50, quantity: 1 });
+        expect(response.message).to.deep.equal('Product not found');
       });
   });
+  describe('products deleted', function () {
+    it('should delete a product', async function () {
+      sinon.stub(productsModel, 'deleteProduct').resolves('Product 1 deleted successfully');
+      const response = await productsService.deleteProduct(1);
+      expect(response.message).to.equal('Product 1 deleted successfully');
+    });
   
+    it('should returns an error with invalid id', async function () {
+      sinon.stub(productsModel, 'getProducts').resolves(productList);
+      const response = await productsService.deleteProduct(50);
+      expect(response.message).to.deep.equal('Product not found');
+    });
+  })
   afterEach(sinon.restore);
 });

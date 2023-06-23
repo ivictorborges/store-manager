@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const salesModel = require('../../../src/models/salesModel');
 const connection = require('../../../src/models/connection');
-const { sales } = require('./mocks/salesModel.mock');
+const { sales, sale } = require('./mocks/salesModel.mock');
 
 describe('Unit tests on salesModel', function () {
   describe('sales posted', function () {
@@ -25,6 +25,20 @@ describe('Unit tests on salesModel', function () {
       expect(result).to.be.equal(sales);
     });
   });
-  
+  describe('sales deleted', function () {
+    it('should delete a sale', async function () {
+      sinon.stub(connection, 'execute').resolves();
+      const result = await salesModel.deleteSales(1);
+      expect(result).to.equal('Sale 1 successfully deleted');
+    });
+  });
+  describe('sales updated', function () {
+    it('should update a sale', async function () {
+      sinon.stub(connection, 'execute').resolves();
+      const result = await salesModel.putSales(1, sale);
+      expect(result).to.equal('Sale 1 successfully updated');
+    });
+  });
+
   afterEach(sinon.restore);
 });

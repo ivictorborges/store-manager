@@ -25,11 +25,18 @@ describe('Unit test on productsModel', function () {
       expect(result).to.be.equal(4);
     });
   });
-  describe('products putted', function () {
-    it('should put a product', async function () {
+  describe('products updated', function () {
+    it('should update a product', async function () {
       sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
       const result = await productsModel.putProduct(productsList[0]);
       expect(result).to.be.deep.equal(productsList[0]);
+    });
+  });
+  describe('products deleted', function () {
+    it('should delete a product', async function () {
+      sinon.stub(connection, 'execute').resolves();
+      const result = await productsModel.deleteProduct(1);
+      expect(result).to.equal('Product 1 deleted successfully');
     });
   });
       
